@@ -172,15 +172,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const certModalLink = document.getElementById('certModalLink');
 
     // Make openCertModal globally available
-    window.openCertModal = function(title, description) {
+    window.openCertModal = function(title, description, link) {
         certModalTitle.textContent = title;
         certModalDesc.textContent = description;
-        // Temporary link - user will replace with Google Drive link
-        certModalLink.href = '#';
-        certModalLink.onclick = function(e) {
-            e.preventDefault();
-            alert('Certificate link will be updated with Google Drive link soon.');
-        };
+        certModalLink.href = link || '#';
+        certModalLink.onclick = null;
         certModal.classList.add('active');
         document.body.style.overflow = 'hidden';
     };
