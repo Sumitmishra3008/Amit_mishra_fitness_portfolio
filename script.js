@@ -40,44 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ============ SCROLL ANIMATIONS (Intersection Observer) ============
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -60px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                // Add staggered delay for children
-                const delay = entry.target.dataset.delay || 0;
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, delay);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.animate-on-scroll').forEach((el, index) => {
-        el.dataset.delay = index * 100;
-        observer.observe(el);
-    });
-
-    // ============ COUNTER ANIMATION ============
-    const counterObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCounters();
-                counterObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    const statsSection = document.querySelector('.hero-stats');
-    if (statsSection) {
-        counterObserver.observe(statsSection);
-    }
+    // ============ COUNTER ANIMATION (triggers on page load) ============
+    setTimeout(animateCounters, 800);
 
     function animateCounters() {
         const counters = document.querySelectorAll('.stat-number[data-target]');
