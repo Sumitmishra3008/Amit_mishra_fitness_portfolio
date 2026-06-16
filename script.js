@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============ SMOOTH SCROLL FOR ANCHORS ============
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    document.querySelectorAll('a[href^="#"]:not(.cert-modal-link)').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
@@ -169,14 +169,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const certModalClose = document.getElementById('certModalClose');
     const certModalTitle = document.getElementById('certModalTitle');
     const certModalDesc = document.getElementById('certModalDesc');
-    const certModalLink = document.getElementById('certModalLink');
+    let certModalLink = document.getElementById('certModalLink');
 
     // Make openCertModal globally available
     window.openCertModal = function(title, description, link) {
         certModalTitle.textContent = title;
         certModalDesc.textContent = description;
+        // Clone to remove any stale event listeners
+        const newLink = certModalLink.cloneNode(true);
+        certModalLink.parentNode.replaceChild(newLink, certModalLink);
+        certModalLink = newLink;
         certModalLink.href = link || '#';
-        certModalLink.onclick = null;
         certModal.classList.add('active');
         document.body.style.overflow = 'hidden';
     };
